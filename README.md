@@ -1,10 +1,15 @@
-&emsp;&emsp;本项目包含了一下wiki文件的所有源代码。所有代码在test路径下。
+      本项目包含了一下wiki文件的所有源代码。所有代码在test路径下。
 
-&emsp;&emsp;JAVA版本的OFD板式文件创建工具easyofd.
+      JAVA版本的OFD板式文件创建工具easyofd.
 
-&emsp;&emsp;功能包含了图像、 图像、 文字、和模版页功能。同时也支持OFD文件的数字签名及验签，电子签章及验签。
+      功能包含了图像、 图像、 文字、和模版页功能。同时也支持OFD文件的数字签名及验签，电子签章及验签。
 
-&emsp;&emsp;本JAVA版本的easyofd使用原生方式创建板式文件，不依赖JAVA的SWT库。
+      本JAVA版本的easyofd使用原生方式创建板式文件，不依赖JAVA的SWT库。
+
+      项目地址：http://wiki.easyofd.cn/zh/JAVA
+
+      浏览器查看OFD文件控件地址： http://www.easyofd.com  https://github.com/11627685/easyofd
+     
 
 # 一、 <a target="_blank" href="http://wiki.easyofd.cn/JAVA/入门JAVA">入门</a> 
 &emsp;&emsp;本章节介绍如何在项目中引用本easyofd的jar文件，完成项目初始化，建立测试文件文件产生项目OFD文件。  
