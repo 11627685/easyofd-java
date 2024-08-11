@@ -8,7 +8,7 @@
 
       项目地址：http://wiki.easyofd.cn/zh/JAVA
 
-      浏览器查看OFD文件控件地址： http://www.easyofd.com  https://github.com/11627685/easyofd
+      浏览器查看OFD文件控件地址： http://www.easyofd.cn  https://github.com/11627685/easyofd
      
 
 # 一、 <a target="_blank" href="http://wiki.easyofd.cn/JAVA/入门JAVA">入门</a> 
