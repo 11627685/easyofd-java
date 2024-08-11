@@ -1,4 +1,4 @@
-package java.Text;
+package Text;
 
 import cn.easyofd.document.OFDocument;
 import cn.easyofd.document.page.OFDPage;

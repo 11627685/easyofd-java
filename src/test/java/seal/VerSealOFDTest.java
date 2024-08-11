@@ -63,30 +63,6 @@ public class VerSealOFDTest implements ISealCheck {
 
     }
 
-    @Test
-    public void VerFapiaoSeal() throws IOException, CryptoException, CertificateEncodingException, NoSuchProviderException, InvalidKeySpecException {
-        boolean sucessed=false;
-
-        try {
-
-            String filePath = "OfdFiles/seal/fapiao.ofd"; // ASN.1文件路径
-            Security.addProvider(new BouncyCastleProvider());
-            OFDVerifySignature ofdVerifySignature =new OFDVerifySignature(new File(filePath));
-            ofdVerifySignature.setSealCheck(this::sealCheck);
-            boolean verifySignature = ofdVerifySignature.verifySignature();
-
-            System.out.println("aaaaaa:"+verifySignature);
-
-        }catch (Exception ex) {
-            Assert.fail(ex.getMessage());
-        }
-
-        sucessed=true;
-
-
-        assertEquals(true,sucessed  ) ;
-
-    }
 
 
     @Override

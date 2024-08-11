@@ -1,4 +1,4 @@
-package java.Text.Glyphs;
+package Text.Glyphs;
 
 import cn.easyofd.document.OFDocument;
 import cn.easyofd.document.page.OFDPage;
