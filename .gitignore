@@ -1,0 +1,23 @@
+# Maven 构建输出
+target/
+out/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.classpath
+.project
+
+# 编译产物与日志
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+
+# 系统文件
+.DS_Store
+Thumbs.db
