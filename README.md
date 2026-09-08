@@ -64,7 +64,7 @@ OFD 板式文件（GB/T 33190-2016）JAVA 生成/读取/签章库。
 - **页面元素**：文字（含竖排、圆形/椭圆环绕文字、字型 Glyph 图元）、图形（直线、矩形、圆、椭圆、五角星、自定义 Path）、图像（含旋转）、复合对象、页面块、层（Layer）。
 - **模板页**：`OFDTemplate` 定义一次，多页复用（`Background` / `Foreground`）。
 - **资源管理**：字体、颜色空间、绘制参数、多媒体由 `OFDCommonData` / `OFDRes` 统一管理，字体文件与图片自动打包进 OFD。
-- **附件**：`OFDAttachment` 支持把任意文件（如 `font/楷体.ttf`）作为附件写入 OFD，并能从 OFD 中读取、导出附件。
+- **附件**：`OFDAttachment` 支持把任意文件（如 `image/123.png`）作为附件写入 OFD，并能从 OFD 中读取、导出附件。
 - **读取 OFD**：`OFDReadFile` 反序列化为 `OFDocument` 对象树（JAXB）。
 - **国密签章**：支持 SM2/SM3 电子印章（`SESeal`，遵循 GM/T 0031 电子印章数据结构）、OFD 签章与验签。
 - **数字签名**：基于 X.509 国密证书的 OFD 签名与验签。
@@ -482,42 +482,29 @@ X509Certificate newCert = builder.getCertificate();
 ## 工程结构
 
 ```
-easyofdjava/
-├─ pom.xml                          Maven 配置（Java 8）
-├─ font/                            示例字体（宋体、楷体、思源黑体…）
+easyofd-java/
+├─ pom.xml                          示例工程依赖（easyofd + junit + bouncycastle）
+├─ LICENSE                          Apache-2.0
+├─ README.md
+├─ font/                            开源字体（思源黑体，SIL OFL），见 font/README.md
 ├─ image/                           示例图片
-├─ key/                             示例国密证书与私钥（ofd.cert.pem / ofd.key.pem）
-├─ lib/                             本地依赖 jar
-├─ XML/                             测试产出的 OFD / XML 样例
-└─ src/
-   ├─ main/
-   │  ├─ java/
-   │  │  ├─ cn/easyofd/
-   │  │  │  ├─ document/           OFD 文档核心（OFDocument/OFDPage/OFDCommonData/签章签名…）
-   │  │  │  │  ├─ attachment/      附件（OFDAttachment）
-   │  │  │  │  ├─ page/            页面类
-   │  │  │  │  ├─ res/             资源管理
-   │  │  │  │  ├─ seal/            电子印章（SealBuilder / ISealCheck）
-   │  │  │  │  ├─ signs/           数字签名（含 x509/GMX509Builder）
-   │  │  │  │  ├─ Tpls/            模板页
-   │  │  │  │  └─ util/            工具类（单位换算/文字度量/SM2/SM3/XML）
-   │  │  │  ├─ asn1/seal/          电子印章 ASN.1 数据结构
-   │  │  │  └─ xsd/                OFD 标准 JAXB Bean
-   │  │  └─ xsd/                   OFD 标准 XSD 原文
-   │  └─ resources/
-   └─ test/java/                    单元测试与用法示例
-      ├─ Text/       文字（基线、边界、旋转、竖排、字型）
-      ├─ path/       图形（直线、矩形、圆、椭圆、三角形、五角星）
-      ├─ image/      图片与旋转
-      ├─ Template/   模板页
-      ├─ attachment/ 附件写入与附件读取导出
-      ├─ seal/       印章制作、盖章、验章
-      ├─ Signs/      签名、验签、摘要
-      ├─ readofd/    OFD 读取
-      ├─ xml/        各 XML 节点生成
-      ├─ asn1/       ASN.1 签名值解析
-      └─ X509/、Glyphs/、font/ …
+├─ out/                             示例输出目录（Git 忽略）
+└─ src/test/java/cn/easyofd/demo/
+   ├─ QuickStartTest.java           入门：创建文档、写文字、画线、画矩形
+   ├─ PathDemoTest.java             图形：线、矩形、圆、椭圆、五角星
+   ├─ ImageDemoTest.java            图像：图片与旋转
+   ├─ TextDemoTest.java             文字：注册字体、沿圆/椭圆排布
+   ├─ TemplateDemoTest.java         模板页
+   ├─ AttachmentDemoTest.java       附件写入
+   ├─ SignDemoTest.java             数字签名与验签
+   ├─ SealDemoTest.java             制作电子印章、盖章与验章
+   ├─ ReadDemoTest.java             读取已有 OFD
+   ├─ DemoDocs.java                 生成示例用的基础文档
+   ├─ DemoKeys.java                 运行时生成证书与私钥
+   └─ DemoOutput.java               输出目录管理
 ```
+
+> 本仓库只含示例工程，核心库以 Maven 依赖 `cn.easyofd:easyofd` 引入。
 
 ## 测试
 
@@ -527,24 +514,19 @@ easyofdjava/
 mvn test
 ```
 
-常用示例入口：
+生成的 OFD 文件输出到 `out/` 目录：
 
-| 场景 | 测试类 |
-| --- | --- |
-| 文字基线/字号/颜色/竖排 | `Text.TextBaseTest` |
-| 文字边界 | `Text.TextBoundaryTest`、`Text.TextBoundary2Test` |
-| 文字旋转 | `Text.TextRotateTest`、`Text.SongRotateTest` |
-| 图形绘制 | `path.PathLineTest`、`path.PathSquareTest`、`path.PathCircleTest`、`path.PathEllioticTest` |
-| 图片与旋转 | `image.OnePageImageTest`、`image.OnePageImage2Test` |
-| 模板页 | `Template.BaseTest` |
-| 附件写入 | `attachment.AttachmentTest` |
-| 附件读取 | `attachment.AttachmentReadTest` |
-| 制作电子印章 | `seal.SealFileMakerTest` |
-| 盖章 | `seal.SealOFDTest` |
-| 验章 | `seal.VerSealOFDTest` |
-| 签名 | `Signs.SignedOFDTest`、`Signs.SignedOFD2Test` |
-| 验签 | `Signs.VerSignOFDTest` |
-| 读取 OFD | `readofd.readTest` |
+| 场景 | 示例类 | 输出 |
+| --- | --- | --- |
+| 入门 | `QuickStartTest` | `out/quickstart.ofd` |
+| 图形 | `PathDemoTest` | `out/path/path.ofd` |
+| 图片与旋转 | `ImageDemoTest` | `out/image/image.ofd` |
+| 文字 | `TextDemoTest` | `out/text/text.ofd` |
+| 模板页 | `TemplateDemoTest` | `out/template/template.ofd` |
+| 附件写入 | `AttachmentDemoTest` | `out/attachment/attachment.ofd` |
+| 数字签名与验签 | `SignDemoTest` | `out/sign/signed.ofd` |
+| 电子签章与验章 | `SealDemoTest` | `out/seal/sealed.ofd` |
+| 读取 OFD | `ReadDemoTest` | `out/read/read.ofd` |
 
 ## 构建
 
